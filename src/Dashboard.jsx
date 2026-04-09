@@ -29,6 +29,33 @@ const styles = `
   /* LAYOUT */
   .dashboard { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
 
+  /* MOBILE BOTTOM NAV */
+  .mobile-nav {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--navy); z-index: 100;
+    padding: 0.5rem 0 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .mobile-nav-items { display: flex; justify-content: space-around; }
+  .mobile-nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    cursor: pointer; padding: 0.25rem 1rem;
+    color: rgba(255,255,255,0.5); font-size: 0.7rem;
+    border: none; background: none; font-family: inherit;
+    transition: color 0.2s;
+  }
+  .mobile-nav-item .mn-icon { font-size: 1.3rem; }
+  .mobile-nav-item.active { color: var(--teal); }
+  .mobile-nav-item:hover { color: white; }
+
+  @media (max-width: 768px) {
+    .dashboard { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .mobile-nav { display: block; }
+    .main { padding-bottom: 5rem; }
+  }
+
   /* SIDEBAR */
   .sidebar {
     background: var(--navy); padding: 2rem 0;
@@ -178,7 +205,7 @@ const TIMELINE = [
 export default function Dashboard() {
   const [checkins, setCheckins] = useState({})
   const [activeNav, setActiveNav] = useState("dashboard")
-  const navigate = useNavigate()
+
   const handleCheckin = (idx, val) => {
     setCheckins(prev => ({ ...prev, [idx]: val }))
   }
@@ -204,7 +231,7 @@ export default function Dashboard() {
             ].map(item => (
               <div key={item.id}
                 className={`nav-item ${activeNav === item.id ? "active" : ""}`}
-                onClick={() => { setActiveNav(item.id); if(item.id === "checkins") navigate('/checkin'); }}>
+                onClick={() => setActiveNav(item.id)}>
                 <span className="nav-icon">{item.icon}</span>
                 {item.label}
               </div>
@@ -389,6 +416,28 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* MOBILE BOTTOM NAV */}
+      <nav className="mobile-nav">
+        <div className="mobile-nav-items">
+          {[
+            { id: "dashboard", icon: "🏠", label: "Home" },
+            { id: "medications", icon: "💊", label: "Meds" },
+            { id: "checkins", icon: "✅", label: "Check-in" },
+            { id: "appointments", icon: "📅", label: "Appts" },
+            { id: "messages", icon: "💬", label: "Messages" },
+          ].map(item => (
+            <button
+              key={item.id}
+              className={`mobile-nav-item ${activeNav === item.id ? "active" : ""}`}
+              onClick={() => { setActiveNav(item.id); if(item.id === "checkins") navigate('/checkin'); }}
+            >
+              <span className="mn-icon">{item.icon}</span>
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </nav>
     </>
   )
 }
