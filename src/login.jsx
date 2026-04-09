@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
@@ -180,7 +181,7 @@ const PROFESSIONS = [
   { id: "chw",        name: "CHW / CHV",  icon: "🏘️", body: "MOH County", placeholder: "CHW/COUNTY/XXXXX" },
 ]
 
-export default function Login() {
+export default function Login() {const navigate = useNavigate()
   const [role, setRole] = useState("patient")
   const [patientType, setPatientType] = useState("referred")
   const [profession, setProfession] = useState(null)
@@ -245,7 +246,7 @@ export default function Login() {
                     ))}
                   </div>
                 </div>
-                <button className="btn-main">Verify & Sign in</button>
+                <button className="btn-main" onClick={() => navigate('/dashboard')}>Verify & Sign in</button>
                 {patientType === "self" && (
                   <div className="basic-mode-note">
                     ⚠️ Your account starts in <strong>basic mode</strong> until a verified clinician links you to a facility. You can still use medication reminders and health tips.
@@ -359,9 +360,9 @@ export default function Login() {
                           <input type="password" placeholder="••••••••"
                             value={password} onChange={e => setPassword(e.target.value)} />
                         </div>
-                        <button className="btn-main" disabled={!licenceNo || !email || !password}>
-                          Sign in
-                        </button>
+                       <button className="btn-main" disabled={!licenceNo || !email || !password} onClick={() => navigate('/clinician-dashboard')}>
+  Sign in
+</button>
                         <div className="divider"><span>new to AfyaLink?</span></div>
                         <button className="btn-ghost">Request clinician access</button>
                       </>
@@ -392,9 +393,10 @@ export default function Login() {
                       <input type="password" placeholder="••••••••" value={password}
                         onChange={e => setPassword(e.target.value)} />
                     </div>
-                    <button className="btn-main" disabled={!facilityCode || !email || !password}>
-                      Sign in
-                    </button>
+                    <button className="btn-main" disabled={!facilityCode || !email || !password} onClick={() => navigate('/hospital-dashboard')}>
+  Sign in
+</button>
+                      
                     <div className="divider"><span>not registered yet?</span></div>
                     <button className="btn-ghost">Register your facility</button>
                   </>
