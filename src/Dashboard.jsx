@@ -205,6 +205,7 @@ const TIMELINE = [
 export default function Dashboard() {
   const [checkins, setCheckins] = useState({})
   const [activeNav, setActiveNav] = useState("dashboard")
+  const navigate = useNavigate()
 
   const handleCheckin = (idx, val) => {
     setCheckins(prev => ({ ...prev, [idx]: val }))
@@ -231,7 +232,7 @@ export default function Dashboard() {
             ].map(item => (
               <div key={item.id}
                 className={`nav-item ${activeNav === item.id ? "active" : ""}`}
-                onClick={() => setActiveNav(item.id)}>
+                onClick={() => { setActiveNav(item.id); if(item.id === "checkins") navigate('/checkin'); }}>
                 <span className="nav-icon">{item.icon}</span>
                 {item.label}
               </div>
