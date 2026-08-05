@@ -1,0 +1,24 @@
+# Local development Postgres for the AfyaLink backend.
+#
+# Host port 5433 is deliberate: it avoids colliding with a system Postgres
+# already listening on 5432.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: afyalink-pg
+    environment:
+      POSTGRES_USER: afyalink
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: afyalink
+    ports:
+      - "5433:5432"
+    volumes:
+      - afyalink-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U afyalink -d afyalink"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  afyalink-pgdata:

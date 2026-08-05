@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Secrets. .env holds the JWT signing key and the AES key that protects every
+# encrypted PHI column — it must never reach the repository. .env.example is
+# the committed template and carries only placeholders.
+.env
+.env.*
+!.env.example
+
+# Compiled Go binaries
+/backend/api
+/backend/scheduler
+/backend/seed

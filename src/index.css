@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+/* The AfyaLink palette, carried over verbatim from the original hand-written
+   CSS so the refactor to Tailwind changed the implementation without changing
+   the look. Every colour below was already in use; nothing is new. */
+@theme {
+  --color-teal: #1D9E75;
+  --color-teal-light: #E1F5EE;
+  --color-teal-dark: #085041;
+
+  --color-navy: #042C53;
+
+  --color-amber: #BA7517;
+  --color-amber-light: #FAEEDA;
+
+  --color-danger: #A32D2D;
+  --color-danger-light: #FCEBEB;
+
+  --color-info: #185FA5;
+  --color-info-light: #E6F1FB;
+
+  --color-ink: #2C2C2A;
+  --color-ink-muted: #5F5E5A;
+  --color-ink-faint: #B4B2A9;
+
+  --color-canvas: #FAFAF8;
+  --color-hairline: rgba(0, 0, 0, 0.08);
+
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    /* Recovery content is read on cheap phones on mobile data; keep text
+       comfortably sized rather than the 14px dashboards tend to default to. */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    min-height: 100vh;
+  }
+
+  /* A visible focus ring is a requirement, not a nicety: patients completing a
+     check-in may be navigating by keyboard or screen reader. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-teal;
+  }
+}
